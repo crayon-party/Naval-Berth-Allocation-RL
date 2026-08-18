@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Training artifacts
+*.zip
+*.pt
+*.pth
+logs/
+tensorboard_logs/
+checkpoints/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Data (uncomment if raw data shouldn't be public)
+# *.csv
+
+# Local environment / secrets
+.env
+*.key
