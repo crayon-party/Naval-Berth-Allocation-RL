@@ -7,33 +7,27 @@ This repository contains the simulation environment, RL training pipeline, and
 MILP benchmark used to produce the results reported in the paper (Table 5 and
 associated figures).
 
-> **Status:** actively being populated. This repository is being built out in
-> two phases: (1) the simulation environment, RL training pipeline, and MILP
-> benchmark used to produce the paper's reported results, followed by (2) the
-> Unity 3D digital-twin operator interface and FastAPI server described in
-> Section 3. Phase 2 depends on resolving third-party Unity Asset Store
-> licensing before those files can be published.
-
 ## Components
 
-- [ ] `src/naval_berth_env.py` — Gym-compatible simulation environment (`NavalBerthEnv`),
-      implementing the MDP formulation of Section 5.3 (feasibility-based action
-      masking, bounded deferral action, 89-dimensional observation space).
-- [ ] `src/naval_milp_benchmark.py` — offline MILP lower bound (PuLP + CBC),
-      producing the solver-certified dual bounds reported in Section 5.1 and Table 5.
-- [ ] `src/train_ppo.py` — Maskable PPO training pipeline (sb3-contrib /
-      Stable-Baselines3), hyperparameters as in Table 4.
-- [ ] `src/evaluate_all.py` — evaluation harness that runs all baselines
-      (FCFS, EDD, SPT, URGENT, masked random, CMOS, RL) on the held-out test
-      set and reproduces Table 5.
-- [ ] `configs/ppo_hyperparams.yaml` — training hyperparameters as a standalone
-      config file.
-- [ ] `results/results_clear.csv` — raw sweep results underlying the paper's
-      reported metrics.
-- [ ] `unity/` — Unity 3D digital-twin operator interface (Section 3). Pending
-      third-party asset licensing review; not yet included.
-- [ ] `server/` — FastAPI middleware connecting the simulation core to the
-      Unity frontend (Section 3, Table 3). Not yet included.
+- `naval_berth_env.py` — Gym-compatible simulation environment (`NavalBerthEnv`),
+  implementing the MDP formulation of Section 5.3 (feasibility-based action
+  masking, bounded deferral action, 89-dimensional observation space). Also
+  includes the CMOS/`GreedyPolicy` baseline.
+- `naval_milp_benchmark.py` — offline MILP lower bound (PuLP + CBC),
+  producing the solver-certified dual bounds reported in Section 5.1 and Table 5.
+- `train_ppo.py` — Maskable PPO training pipeline (sb3-contrib /
+  Stable-Baselines3), hyperparameters as in Table 4.
+- `evaluate_all.py` — evaluation harness that runs all baselines
+  (FCFS, EDD, SPT, URGENT, masked random, CMOS, RL) on the held-out test
+  set and reproduces Table 5.
+- `ppo_best_s0.zip`–`ppo_best_s7.zip` — best-validation checkpoint per seed
+  (8 seeds, matching Section 5.3's protocol). **These are what Table 5's
+  reported results are built from.**
+- `ppo_final_s0.zip`–`ppo_final_s7.zip` — end-of-training checkpoint per
+  seed, included for transparency into the full run. Not used for any
+  reported number.
+- `results/benchmark_results_s0.csv`–`s7.csv` — per-instance evaluation
+  output for all 8 seeds against the 25-instance test set (seeds 130–154).
 
 ## Requirements
 
@@ -60,15 +54,21 @@ instructions](https://github.com/coin-or/Cbc)) for the MILP benchmark to run.
 
 ## Reproducing paper results
 
-Instructions will be added here as each component is uploaded. The intended
-workflow:
-
 1. Run `naval_milp_benchmark.py` to generate the offline lower bounds for the
    25 test instances (seeds 130–154).
 2. Run `train_ppo.py` to train the Maskable PPO policy (8 seeds, ~10 minutes
    per seed on a desktop CPU).
 3. Run `evaluate_all.py` to evaluate all baselines and the trained policy on
-   the held-out test set, producing the numbers in Table 5.
+   the held-out test set, producing the numbers in Table 5. Use `--skip_milp`
+   after the first seed's evaluation to avoid redundantly re-solving the MILP
+   bound, since it is identical across all seeds.
+
+**Note on reproducibility:** checkpoints in this repository were retrained
+independently of the results reported in the paper. Individual training runs
+may vary due to the stochastic nature of PPO, but results consistently fall
+within the paper's reported range across seeds (504.7–688.0, Section 6.1),
+and every independently retrained seed outperforms the CMOS baseline (778.2),
+consistent with the paper's claims.
 
 ## Digital twin / Unity frontend
 

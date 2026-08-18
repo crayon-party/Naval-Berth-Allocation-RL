@@ -76,7 +76,13 @@ def main():
     ap.add_argument('--weather', type=float, default=0.0)
     ap.add_argument('--model', type=str, default=None)
     ap.add_argument('--milp_timelimit', type=int, default=600)
+    ap.add_argument('--skip_milp', action='store_true',
+                    help='Skip MILP solve (e.g. when already computed in a prior run '
+                         'on the same seed range -- MILP bound is model-independent)')
     args = ap.parse_args()
+    global HAVE_MILP
+    if args.skip_milp:
+        HAVE_MILP = False
 
     policies = {'FCFS': (wrap_simple(FCFSPolicy()), 'wait'),
                 'EDD': (wrap_simple(FCFSPolicy()), 'edd'),

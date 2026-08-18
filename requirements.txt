@@ -1,12 +1,24 @@
 # Core: simulation environment, RL training, MILP benchmark
+#
+# IMPORTANT: versions are pinned deliberately, not just for documentation.
+# train_ppo.py's Monitor/ActionMasker wrapper chain breaks on newer
+# gymnasium/sb3-contrib/stable-baselines3 (AttributeError: 'Monitor' object
+# has no attribute 'action_masks'). Install these exact versions.
 gymnasium==0.29.1
 stable-baselines3==2.3.2
 sb3-contrib==2.3.0
 torch==2.2.2
 PuLP==3.3.0
-numpy
+numpy<2          # torch==2.2.2 predates the NumPy 2.0 ABI change; numpy>=2 causes
+                  # "A module that was compiled using NumPy 1.x cannot be run in
+                  # NumPy 2.x" at import time
 pandas
 matplotlib
+
+# Required by train_ppo.py (TensorBoard logging + progress bar)
+tensorboard
+tqdm
+rich
 
 # Phase 2 (uncomment once server/ is added):
 # fastapi==0.135.1
