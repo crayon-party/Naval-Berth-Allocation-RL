@@ -15,7 +15,8 @@ env/
 .ipynb_checkpoints/
 
 # Training artifacts
-*.zip
+# Note: *.zip intentionally NOT ignored -- ppo_best_s*.zip / ppo_final_s*.zip
+# checkpoints are published as part of the repo (see README).
 *.pt
 *.pth
 logs/
