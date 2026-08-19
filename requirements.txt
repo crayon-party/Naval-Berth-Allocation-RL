@@ -20,6 +20,8 @@ tensorboard
 tqdm
 rich
 
-# Phase 2 (uncomment once server/ is added):
-# fastapi==0.135.1
-# uvicorn==0.41.0
+# Server (Unity digital-twin backend, server.py)
+fastapi==0.135.1
+uvicorn==0.41.0
+pydantic>=2.0  # server.py uses model_dump(), a Pydantic v2-only method
+ 
