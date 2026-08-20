@@ -72,13 +72,30 @@ consistent with the paper's claims.
 
 ## Digital twin / Unity frontend
 
+## Digital twin / Unity frontend
+
 The Unity 3D operator interface and FastAPI server described in Section 3
 are visualization and interaction layers; they do not affect any reported
 quantitative result and are not required to reproduce the paper's
 experiments (`naval_berth_env.py`, `naval_milp_benchmark.py`, `train_ppo.py`,
-and `evaluate_all.py` are fully sufficient for that). They will be added to
-this repository once third-party Unity Asset Store licensing has been
-reviewed.
+and `evaluate_all.py` are fully sufficient for that).
+ 
+The Unity project itself is not included in this repository. It depends on
+third-party Unity Asset Store content (3D vessel and shipyard models) whose
+standard license does not permit redistribution outside the Asset Store. 
+
+The Unity project source, excluding those licensed assets, is available from the
+corresponding author upon request.
+
+In place of the Unity project, this repository includes:
+ 
+- [`docs/unity_operator_interface.png`](docs/unity_operator_interface.png) —
+  an annotated overview of the operator interface, showing how each panel
+  maps onto the monitoring / prediction / decision-making structure
+  described in Section 3.
+- [`docs/demo-v2_highres.mp4`](docs/demo-v2_highres.mp4) — a recorded demonstration of the digital
+  twin in operation, showing scenario setup, weather-event injection, and
+  live rescheduling.
 
 ## Citation
 
