@@ -72,8 +72,6 @@ consistent with the paper's claims.
 
 ## Digital twin / Unity frontend
 
-## Digital twin / Unity frontend
-
 The Unity 3D operator interface and FastAPI server described in Section 3
 are visualization and interaction layers; they do not affect any reported
 quantitative result and are not required to reproduce the paper's
